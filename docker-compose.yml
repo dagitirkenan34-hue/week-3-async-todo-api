@@ -1,0 +1,21 @@
+﻿services:
+  postgres:
+    image: postgres:17
+    container_name: week3-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: week3_local_password
+      POSTGRES_DB: async_todo
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo_user -d async_todo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
